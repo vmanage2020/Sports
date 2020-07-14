@@ -161,7 +161,11 @@ import * as moment from 'moment';
    
   get f() { return this.createImportUserForm.controls; }
 
-  async onSubmit(form) {}
+  async onSubmit(form) {
+
+    console.log(form);
+
+  }
   
     listUser(){
       this.router.navigate(['/useruploads/list']);
