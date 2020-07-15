@@ -354,6 +354,10 @@ export class UpdateUserImportRecordComponent implements OnInit {
     form.controls.intelimObj['controls'].processed_flag.patchValue("N");
     form.value.intelimObj.player_DOB = new Date(form.value.intelimObj.player_DOB);
     form.value.intelimObj.error_description = [];
+    
+    console.log(form.value);
+    return;
+    
     this.displayLoader = true;
     this.loading = true;
     let loaderWhileUpdate = setInterval(this.timerFunction, 300, this.loaderInfo, "save");

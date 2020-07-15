@@ -3,15 +3,14 @@
         <div class="col-lg-6">
             <div class="card-box">
             <h5 class="text-uppercase bg-light p-2 mt-0 mb-3">Update User Details</h5>
-       
-
+ 
             <form class="needs-validation" name="createImportUserForm" [formGroup]="createImportUserForm" (ngSubmit)="onSubmit(createImportUserForm)" novalidate>
 
                 <div class="form-group mb-3">
                     <label for="player_first_name">Player First Name<span class="text-danger">*</span></label>
                     <input type="text" [ngModel]="getUserData.athlete_1_first_name" id="player_first_name" name="player_first_name" formControlName="player_first_name" class="form-control" placeholder="Enter First Name" [ngClass]="{ 'is-invalid': submitted && f.player_first_name.errors }"/>
                     <div *ngIf="submitted && f.player_first_name.errors" class="invalid-feedback">
-                        <div *ngIf="f.player_first_name.errors.required">Player First Name is required.</div>
+                        <div *ngIf="f.player_first_name.errors?.required">Player First Name is required.</div>
                     </div>                
                 </div>
                 <div class="form-group mb-3">
@@ -22,7 +21,7 @@
                     <label for="player_last_name">Player Last Name<span class="text-danger">*</span></label>
                     <input type="text" [ngModel]="getUserData.athlete_1_last_name" id="player_last_name" name="player_last_name" formControlName="player_last_name" class="form-control" placeholder="Enter Last Name" [ngClass]="{ 'is-invalid': submitted && f.player_last_name.errors }"/>
                     <div *ngIf="submitted && f.player_last_name.errors" class="invalid-feedback">
-                        <div *ngIf="f.player_last_name.errors.required">Player Last Name is required.</div>
+                        <div *ngIf="f.player_last_name.errors?.required">Player Last Name is required.</div>
                     </div>                 
                 </div>
 
@@ -38,7 +37,7 @@
                     <label for="player_DOB">Player DOB</label>
                     <input type="text" name="player_DOB" [ngModel]="getUserData.athlete_1_dob_value" formControlName="player_DOB" class="form-control date-picker" id="datetime-datepicker" placeholder="Choose DOB" [ngClass]="{ 'is-invalid': submitted && f.player_DOB.errors }"/>
                     <div *ngIf="submitted && f.player_DOB.errors" class="invalid-feedback">
-                        <div *ngIf="f.player_DOB.errors.required">Player DOB is required.</div>
+                        <div *ngIf="f.player_DOB.errors?.required">Player DOB is required.</div>
                     </div>  
                 </div>
                 <div class="form-group mb-3">
@@ -46,12 +45,12 @@
                     
                     <ng-select [items]="levelList" [ngModel]="getUserData.athlete_1_level" 
                         formControlName="level_of_play" bindLabel="level_name" [loading]="levelSelect"
-                        [clearable]="false"  [ngClass]="{ 'is-invalid': submitted && f.level_name.errors }"
+                        [clearable]="false"  [ngClass]="{ 'is-invalid': submitted && f.level_of_play.errors }"
                         bindValue="level_name" placeholder="Select level of play">
                       </ng-select>
 
                     <div *ngIf="submitted && f.level_of_play.errors" class="invalid-feedback">
-                        <div *ngIf="f.level_of_play.errors.required">Level Play is required.</div>
+                        <div *ngIf="f.level_of_play.errors?.required">Level Play is required.</div>
                     </div>  
                 </div>
              

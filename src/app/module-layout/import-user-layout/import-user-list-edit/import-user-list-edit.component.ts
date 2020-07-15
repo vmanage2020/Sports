@@ -11,11 +11,13 @@ import { Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 
 import { CookieService } from 'src/app/core/services/cookie.service';
 import { apiURL, Constant } from 'src/app/core/services/config';
+import { DataService } from 'src/app/core/services/data.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { SharedService } from 'src/app/shared/shared.service';
 import { NgiNotificationService } from 'ngi-notification';
-
+import { DropdownService } from 'src/app/core/services/dropdown.service';
 import * as moment from 'moment';
+import { RESOURCE_CACHE_PROVIDER } from '@angular/platform-browser-dynamic';
 
   @Component({
     selector: 'app-import-user-list-edit',
@@ -26,6 +28,8 @@ import * as moment from 'moment';
   
     resourceID = this.route.snapshot.paramMap.get('resourceId'); 
   
+    importID = this.route.snapshot.paramMap.get('resourceId'); 
+
     viewUserListType: any;
   
     db: any = firebase.firestore();
@@ -37,7 +41,7 @@ import * as moment from 'moment';
     uid: any;
     orgId: any;
 
-    getUserData: any;
+    getUserData: any = [];
   
     gender: any = [
       { name: 'Male' },
@@ -56,8 +60,29 @@ import * as moment from 'moment';
   submitted = false;
   createImportUserForm: FormGroup;
 
-  constructor(private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder,public cookieService: CookieService, private notification: NgiNotificationService) { 
-    this.createForm();
+  
+  getAllLevel:any=[];
+  getAllLevelData:any=[];
+  getImportData:any=[];
+  ImportLogID:any;
+
+  constructor(private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder,public cookieService: CookieService, private notification: NgiNotificationService,public dataService: DataService,private dropDownService: DropdownService) { 
+    
+  }
+
+  async getAllStateList() { 
+    let getAllStateResponse: any = await this.dropDownService.getAllStates();
+    try {
+      if (getAllStateResponse.status) {
+        this.stateList = getAllStateResponse.data; 
+      }
+      else {
+        this.stateList = []; 
+      }
+    } catch (error) {
+      console.log(error);
+      this.stateList = []; 
+    }
   }
   
     
@@ -122,23 +147,28 @@ import * as moment from 'moment';
   }
 
     ngOnInit() {
+      this.ImportLogID = localStorage.getItem('resourceID');
       this.loading = true;
       this.displayLoader = true;
-          
-      this.viewUserListType = localStorage.getItem('viewUserListType');
-  
       this.uid = this.cookieService.getCookie('uid');
       this.orgId = localStorage.getItem('org_id');
+      this.getAllStateList();
       this.getUserList();  
+      this.createForm();
+      
     }
   
+
     async getUserList(){
    
-      this.viewUserListType = localStorage.getItem('resourceID');
+      
+      this.getAllLevel = await this.db.collection('/organization').doc(this.orgId).collection('/import_users_log').where("imported_file_id", '==', this.ImportLogID).get();  
+      this.getAllLevelData = await this.getAllLevel.docs.map((doc: any) => doc.data());
+      this.getImportData = this.getAllLevelData[0];
+      console.log(this.getImportData);
 
-      this.getAllplayerlist = await this.db.collection('/organization').doc(this.orgId).collection('/import_users_log').doc(this.viewUserListType).collection('/imported_users_data').where('id', '==', this.resourceID).get();
+      this.getAllplayerlist = await this.db.collection('/organization').doc(this.orgId).collection('/import_users_log').doc(this.ImportLogID).collection('/imported_users_data').where('id', '==', this.resourceID).get();
 
-  
       this.getAllPlayerlistData = await this.getAllplayerlist.docs.map((doc: any) => doc.data());
    
       this.getUserData = this.getAllPlayerlistData[0];
@@ -152,6 +182,7 @@ import * as moment from 'moment';
       console.log(this.getUserData.athlete_1_dob_value);
       console.log(this.getUserData);
 
+      //this.createForm();
       this.loading = false;
       this.displayLoader = false; 
 
@@ -161,10 +192,110 @@ import * as moment from 'moment';
    
   get f() { return this.createImportUserForm.controls; }
 
+  formdata:any={};
   async onSubmit(form) {
+    
+    console.log("this.viewUserListType", this.viewUserListType);
+    this.submitted = true;
+    console.log(form.value);
 
-    console.log(form);
 
+    form.controls.processed_flag.patchValue("N");
+    form.controls.player_DOB.patchValue( new Date(form.value.player_DOB));
+    form.controls.error_description.patchValue([]);
+    form.controls.status.patchValue([]);
+    form.controls.level_id.patchValue("nftTeZMmH7ALCX7Nl7yO");
+    form.controls.id.patchValue(this.importID);
+    
+    console.log(form.value);
+    
+    this.formdata.imported_file_id = this.getImportData.imported_file_id;
+    this.formdata.imported_log_data_id = this.importID;
+    this.formdata.intelimObj = form.value;
+    this.formdata.organization_id = this.orgId;
+    this.formdata.user_id = this.getImportData.imported_user_id;
+    
+    /*
+    this.formdata.intelimObj.processed_flag = "N";
+    this.formdata.intelimObj.player_DOB = new Date(form.value.player_DOB);
+    this.formdata.intelimObj.error_description = [];
+    */
+
+    console.log(this.formdata); 
+    
+    
+    if (form.invalid) {
+      console.log("form.value.console.error");
+      console.log(form.value.console.error);
+      return
+    }
+    /*
+    form.controls.intelimObj['controls'].processed_flag.patchValue("N");
+    form.value.intelimObj.player_DOB = new Date(form.value.intelimObj.player_DOB);
+    form.value.intelimObj.error_description = [];
+    */
+    this.displayLoader = true;
+    this.loading = true;
+    
+    
+    this.dataService.postData(apiURL.UPDATE_ERROR_RECORD, this.formdata, localStorage.getItem('token')).subscribe(res => {
+      
+        console.log(res);
+
+        if (res.status) {
+          this.notification.isNotification(true, "Import Users", res.message, "check-square");
+          console.log("FIRST VIMAL");
+          this.router.navigate(['/useruploads/userlist/'+this.ImportLogID]);
+ 
+        }
+        else {
+          this.submitted = false;
+          this.reInitialise();
+          this.notification.isNotification(true, "Import Users Error", res.message, "check-square");
+          console.log("SECOND VIMAL");
+          this.router.navigate(['/useruploads/userlist/'+this.ImportLogID]);
+          
+        }
+
+      /*
+        try {
+        
+        if (res.status) {
+          this.injectedData.data.viewBy = "Error";
+          //this.afterSavingData(loaderWhileUpdate);          
+          //this.change.emit({ action: "errorUserImport", data: this.injectedData.data })
+          this.notification.isNotification(true, "Import Users", res.message, "check-square");
+          console.log("FIRST VIMAL");
+        }
+        else {
+          this.submitted = false;
+          //this.afterSavingData(loaderWhileUpdate);
+          this.reInitialise();
+          //this.error = res.message;
+          console.log("SECOND VIMAL");
+        }
+      } catch (error) {
+        console.log(error);
+        //this.afterSavingData(loaderWhileUpdate);
+        this.reInitialise();
+        console.log("ERROR VIMAL");
+      }
+      */
+    })
+
+
+  }
+
+  afterSavingData(loaderForCreate?: any) {
+    clearInterval(loaderForCreate);
+    this.loading = false;
+    this.displayLoader = false;
+  }
+  reInitialise() {
+    
+  }
+  goBack() {
+    this.injectedData.data.viewBy = "Error";
   }
   
     listUser(){
