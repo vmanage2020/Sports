@@ -333,7 +333,7 @@ export class ImportUserListCreateComponent implements OnInit {
       
       this.router.navigate(['/useruploads/list']);
 
-      this.notification.isNotification(true, "Canned Response Data", "Canned Response has been added successfully.", "check-square");
+      this.notification.isNotification(true, "Import User Data", "Import Users has been added successfully.", "check-square");
       
     } catch (error) {
       

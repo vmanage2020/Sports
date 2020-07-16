@@ -13,19 +13,27 @@
                             <div class=" form-check-inline">
                                
 
-                            <div class="image-upload pl-1">
-                                <label for="file-input" class="hoverable" *ngIf='getUserData.avatar !== null && getUserData.avatar !== "" '>
-                                    <img [src]="getUserData.avatar"  id="imageLabel"
-                                    [ngClass]="{
-                                        'defaultImage': deafulltImagePlaceholder === true, 
-                                        'customizedImage': deafulltImagePlaceholder === false}">
-                                </label>
-                                <div id="container" class="hoverable" *ngIf="getUserData.avatar === null || getUserData.avatar === ''">
-                                    <div class="profile-image">
-                                        <div id="abbreviation">AV</div>
+                                <div class="image-upload pl-1" *ngIf="getUserData.organization_id != '1'"> 
+                                    <label for="file-input" class="hoverable" *ngIf='getUserData.avatar !== "null" && getUserData.avatar !== "" '>
+                                        <img [src]="getUserData.avatar"  id="imageLabel"
+                                        [ngClass]="{
+                                            'defaultImage': deafulltImagePlaceholder === true, 
+                                            'customizedImage': deafulltImagePlaceholder === false}">
+                                    </label>
+                                    <div id="container" class="hoverable" *ngIf='getUserData.avatar === "null" || getUserData.avatar === "" '>
+                                        <div class="profile-image">
+                                            <div id="abbreviation">{{getUserData.abbrev}}</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                
+                                <div class="image-upload pl-1" *ngIf="getUserData.organization_id == '1'"> 
+                                    <div id="container" class="hoverable">
+                                        <div class="profile-image">
+                                            <div id="abbreviation">{{getUserData.abbrev}}</div>
+                                        </div>
+                                    </div>
+                                </div>
 
                             
                             </div>

@@ -104,8 +104,17 @@ export class OrganizationsViewComponent implements OnInit {
       */
       this.getUserData = this.getUser.data();
 
-
       
+    console.log(this.getUserData.avatar);
+    if (this.getUserData.avatar==null) {
+      this.getUserData.avatarstatus==1;
+      console.log("getUserData.avatarstatus=1");
+    } else {
+      this.getUserData.avatarstatus==2;
+      console.log("getUserData.avatarstatus=2");
+    }
+
+      console.log(this.getUserData.avatarstatus);
       console.log(this.getUserData.nationalGoverningOrganizations);
 
       console.log(this.getUserData.stateGoverningOrganizations);
@@ -133,6 +142,7 @@ export class OrganizationsViewComponent implements OnInit {
       this.getUserData = [];
     }
     
+
     /*
     if (this.getUserData.date_of_birth) {
       if(typeof(this.getUserData.date_of_birth) !== "string"){

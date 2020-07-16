@@ -217,6 +217,7 @@ export class TopbarComponent implements OnInit {
       localStorage.setItem('org_abbrev', event.abbrev);
     }
     this.showMsg = false;
+    this.router.navigate(['/welcome']);
   }
   /**
    * Logout the user
