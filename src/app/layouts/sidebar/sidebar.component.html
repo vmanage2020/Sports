@@ -22,27 +22,27 @@
             </li>
             <li *ngIf="custAdmin || admin">
                 <a (click)="organizationRouter()" class="waves-effect" [ngClass]="{'is-active': isOrganization}"
-                    aria-expanded="false" *ngIf="custAdmin || !adminWithId">
+                    aria-expanded="false" *ngIf="custAdmin || !adminWithId" style="display: none;">
                     <span>Organization Details</span>
                 </a>
                 <a (click)="organizationInfoRouter()" class="waves-effect" [ngClass]="{'is-active': isOrganization}"
                     aria-expanded="false" *ngIf="custAdmin || !adminWithId">
-                    <span>Organization Details *</span>
+                    <span>Organization Details </span>
                 </a>
                 
 
 
                 <a (click)="organizationRouter()"   *ngIf="admin && adminWithId" class="waves-effect"
-                    [ngClass]="{'is-active': isOrganization}" aria-expanded="false">
+                    [ngClass]="{'is-active': isOrganization}" aria-expanded="false" style="display: none;">
                     <span> Organizations</span>
                 </a>
                 
                 <a (click)="organizationListRouter()"   *ngIf="admin && adminWithId" class="waves-effect"
                     [ngClass]="{'is-active': isOrganization}" aria-expanded="false">
-                    <span> Organizations * </span>
+                    <span> Organizations </span>
                 </a>
             </li>
-            <li *ngIf="sysAdminWithId && (custAdmin || admin)">
+            <li *ngIf="sysAdminWithId && (custAdmin || admin)"  style="display: none;">
                 <a (click)="season()" class="waves-effect" [ngClass]="{'is-active': isSeason}" aria-expanded="false">
                     <span>Seasons</span>
                 </a>
@@ -50,7 +50,7 @@
             
             <li *ngIf="sysAdminWithId && (custAdmin || admin)">
                 <a (click)="seasonlist()" class="waves-effect" [ngClass]="{'is-active': isSeason}" aria-expanded="false">
-                    <span>Seasons *</span>
+                    <span>Seasons </span>
                 </a>
             </li>
             <li *ngIf="custAdmin || admin" [routerLinkActive]="['active']" class="isChild">
@@ -59,21 +59,21 @@
                     <span class="menu-arrow"></span>
                 </a>
                 <ul class="nav-second-level collapse" aria-expanded="false" [routerLinkActive]="['in']">
-                    <li  [routerLinkActive]="['active']">
+                    <li style="display: none;">
                         <a (click)="createUser()" [ngStyle]="{'display': !isUserModuleLoading ? 'block' : 'none' }"  [routerLink]="[userRouter]" class="waves-effect" [ngClass]="{'is-active': isUser}">Users</a>
                         <a class="waves-effect" [ngStyle]="{'display': isUserModuleLoading ? 'block' : 'none' }" [ngClass]="{'is-active': isUser}">Users</a>
                     </li>
-                    <li *ngIf="sysAdminWithId"  [routerLinkActive]="['active']">                        
+                    <li *ngIf="sysAdminWithId" style="display: none;">                        
                         <a (click)="createUserImport()" [ngClass]="{'is-active': isUserImport}" [routerLink]="[importUserRouter]"
                             class="waves-effect">Import Users</a>
                     </li>
-                    <li >                        
+                    <li [routerLinkActive]="['active']">                        
                         <a (click)="userList()" [ngClass]="{'is-active': isUserList}" [routerLink]="[userListRouter]"
-                            class="waves-effect">Users *</a>
+                            class="waves-effect">Users </a>
                     </li>
                     <li *ngIf="sysAdminWithId"  [routerLinkActive]="['active']">                        
                         <a (click)="createUserListImport()" [ngClass]="{'is-active': isUserImport}" [routerLink]="[importUserRouter]"
-                            class="waves-effect">Import Users *</a>
+                            class="waves-effect">Import Users </a>
                     </li>
                 </ul>
             </li>
@@ -83,17 +83,17 @@
                     <span class="menu-arrow"></span>
                 </a>
                 <ul class="nav-second-level collapse" aria-expanded="false">
-                    <li>
+                    <li  style="display: none;">
                         <a (click)="tags()" class="waves-effect" [ngClass]="{'is-active': isTag}" aria-expanded="false">
                             <span>Tags</span>
                         </a>
                     </li>
                     <li>
                         <a (click)="tagslist()" class="waves-effect" [ngClass]="{'is-active': isTag}" aria-expanded="false">
-                            <span>Tags *</span>
+                            <span>Tags </span>
                         </a>
                     </li>
-                    <li>
+                    <li style="display: none;">
                         <a (click)="cannedResponse()" class="waves-effect" [ngClass]="{'is-active': isCannedResponse}"
                             aria-expanded="false">
                             <span>Canned Responses</span>
@@ -103,7 +103,7 @@
                     <li>
                         <a (click)="cannedResponselist()" class="waves-effect" [ngClass]="{'is-active': isCannedResponse}"
                             aria-expanded="false">
-                            <span>Canned Responses *</span>
+                            <span>Canned Responses </span>
                         </a>
                     </li>
                 </ul>
@@ -118,9 +118,16 @@
                     <span> Team Management</span>
                     <span class="menu-arrow"></span>
                 </a>
-                <ul class="nav-second-level collapse" aria-expanded="false" [routerLinkActive]="['in']">
+                <!--
+                <ul class="nav-second-level collapse" aria-expanded="false" [routerLinkActive]="['in']" style="display: none;">
                     <li [routerLinkActive]="['active']">
                         <a (click)="createTeam()" [routerLink]="[teamRouter]" class="waves-effect" [ngClass]="{'is-active': team}">Teams</a>
+                    </li>                    
+                </ul>
+            -->
+                <ul class="nav-second-level collapse" aria-expanded="false" >
+                    <li [routerLinkActive]="['active']">
+                        <a (click)="createTeamlist()"   class="waves-effect" [ngClass]="{'is-active': team}">Teams </a>
                     </li>
                 </ul>
             </li>
@@ -133,7 +140,7 @@
                 </a>
                 <ul class="nav-second-level collapse" aria-expanded="false">
 
-                    <li *ngIf="!sysAdminWithId">
+                    <li *ngIf="!sysAdminWithId" style="display: none;">
                         <a (click)="sports()" class="waves-effect" aria-expanded="false"
                             [ngClass]="{'is-active': isSports}">
                             <!-- <i class="fe-users"></i> -->
@@ -146,10 +153,10 @@
                             [ngClass]="{'is-active': isSports}">
                             <!-- <i class="fe-users"></i> -->
                             <!-- <span class="badge badge-success badge-pill float-right">2</span> -->
-                            <span>Sports *</span>
+                            <span>Sports </span>
                         </a>
                     </li>
-                    <li *ngIf="!sysAdminWithId">
+                    <li *ngIf="!sysAdminWithId" style="display: none;">
                         <a (click)="position()" class="waves-effect edit-icon" aria-expanded="false"
                             [ngClass]="{'is-active': isPosition}">
                             <!-- <i class="fe-users"></i> -->
@@ -163,10 +170,10 @@
                             [ngClass]="{'is-active': isPosition}">
                             <!-- <i class="fe-users"></i> -->
                             <!-- <span class="badge badge-success badge-pill float-right">2</span> -->
-                            <span>Positions *</span>
+                            <span>Positions </span>
                         </a>
                     </li>
-                    <li *ngIf="sysAdminWithId && (custAdmin || admin)">
+                    <li *ngIf="sysAdminWithId && (custAdmin || admin)" style="display: none;">
                         <a (click)="level()" class="waves-effect" [ngClass]="{'is-active': isLevel}"
                             aria-expanded="false">
                             <!-- <i class="fe-users"></i> -->
@@ -180,11 +187,11 @@
                             aria-expanded="false">
                             <!-- <i class="fe-users"></i> -->
                             <!-- <span class="badge badge-success badge-pill float-right">2</span> -->
-                            <span>Levels *</span>
+                            <span>Levels </span>
                         </a>
                     </li>
                     
-                    <li>
+                    <li style="display: none;">
                         <a (click)="playermetadata()" class="waves-effect" aria-expanded="false"
                             [ngClass]="{'is-active': isPlayerMeta}">
                             <!-- <i class="fe-users"></i> -->
@@ -198,11 +205,11 @@
                             [ngClass]="{'is-active': isPlayerMetaNew}">
                             <!-- <i class="fe-users"></i> -->
                             <!-- <span class="badge badge-success badge-pill float-right">2</span> -->
-                            <span>Player Custom Fields *</span>
+                            <span>Player Custom Fields </span>
                         </a>
                     </li>
                     
-                    <li>
+                    <li style="display: none;">
                         <a (click)="coachmetadata()" class="waves-effect" aria-expanded="false"
                             [ngClass]="{'is-active': isCoachMeta}">
                             <!-- <i class="fe-users"></i> -->
@@ -216,12 +223,12 @@
                             [ngClass]="{'is-active': isCoachMeta}">
                             <!-- <i class="fe-users"></i> -->
                             <!-- <span class="badge badge-success badge-pill float-right">2</span> -->
-                            <span>Coach Custom Fields *</span>
+                            <span>Coach Custom Fields </span>
                         </a> 
                     </li>
 
                     
-                    <li>
+                    <li style="display: none;">
                         <a (click)="managermetadata()" class="waves-effect" aria-expanded="false"
                             [ngClass]="{'is-active': isManagerMeta}">
                             <!-- <i class="fe-users"></i> -->
@@ -235,7 +242,7 @@
                             [ngClass]="{'is-active': isManagerMeta}">
                             <!-- <i class="fe-users"></i> -->
                             <!-- <span class="badge badge-success badge-pill float-right">2</span> -->
-                            <span>Manager Custom Fields *</span>
+                            <span>Manager Custom Fields </span>
                         </a>
                     </li>
 

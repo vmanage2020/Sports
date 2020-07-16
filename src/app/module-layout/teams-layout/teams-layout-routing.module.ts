@@ -5,6 +5,7 @@ import { TeamCreateComponent } from './team-create/team-create.component';
 import { TeamEditComponent } from './team-edit/team-edit.component';
 import { TeamViewComponent } from './team-view/team-view.component';
 import { TeamLayoutComponent } from './team-layout/team-layout.component';
+import { TeamListComponent } from './team-list/team-list.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'view',
     component: TeamViewComponent
+  },
+  {
+    path: 'list',
+    component: TeamListComponent
   },
 ];
 

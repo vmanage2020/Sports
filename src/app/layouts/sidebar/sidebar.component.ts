@@ -895,6 +895,19 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
+  createTeamList() {
+    
+    if (localStorage.getItem('org_id')) {
+      this.sharedService.announceMission('teamRouter');
+      this.router.navigate(['/teams/list']);
+      this.sharedService.announceMission('updateOrganizationList');
+    }
+    else {
+      this.sharedService.announceMission('selectOrganization')
+    }
+    
+  }
+
   /**
    * small sidebar
    */
