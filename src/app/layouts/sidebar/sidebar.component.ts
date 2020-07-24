@@ -894,9 +894,9 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
       this.sharedService.announceMission('selectOrganization')
     }
   }
-
+ 
   createTeamList() {
-    
+    console.log('createTeamList');
     if (localStorage.getItem('org_id')) {
       this.sharedService.announceMission('teamRouter');
       this.router.navigate(['/teams/list']);
@@ -905,7 +905,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
     else {
       this.sharedService.announceMission('selectOrganization')
     }
-    
   }
 
   /**

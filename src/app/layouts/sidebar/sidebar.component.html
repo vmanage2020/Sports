@@ -118,18 +118,30 @@
                     <span> Team Management</span>
                     <span class="menu-arrow"></span>
                 </a>
-                <!--
-                <ul class="nav-second-level collapse" aria-expanded="false" [routerLinkActive]="['in']" style="display: none;">
+                <ul class="nav-second-level collapse" aria-expanded="false" [routerLinkActive]="['in']">
                     <li [routerLinkActive]="['active']">
                         <a (click)="createTeam()" [routerLink]="[teamRouter]" class="waves-effect" [ngClass]="{'is-active': team}">Teams</a>
                     </li>                    
                 </ul>
-            -->
+                
                 <ul class="nav-second-level collapse" aria-expanded="false" >
                     <li [routerLinkActive]="['active']">
-                        <a (click)="createTeamlist()"   class="waves-effect" [ngClass]="{'is-active': team}">Teams </a>
-                    </li>
-                </ul>
+                        <a (click)="createTeamList()" class="waves-effect" [ngClass]="{'is-active': team}">Teams *</a>
+                    </li>                    
+                </ul> 
+            </li>
+
+            
+            <li [ngStyle]="{'display': sysAdminWithId ? 'block' : 'none' }" *ngIf="custAdmin || admin" class="isChild" >
+                <a class="waves-effect" aria-expanded="false" [ngClass]="{'is-active': teamDropDown}">
+                    <span> Team Management *</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <ul class="nav-second-level collapse" aria-expanded="false" >
+                    <li>
+                        <a (click)="createTeamList()" class="waves-effect" [ngClass]="{'is-active': team}">Teams *</a>
+                    </li>                    
+                </ul> 
             </li>
 
             <li *ngIf="custAdmin || admin" class="isChild">
