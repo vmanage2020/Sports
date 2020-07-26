@@ -39,7 +39,9 @@ export class TagListComponent implements OnInit {
   ngOnInit() { 
 
     this.uid = this.cookieService.getCookie('uid');
+   
     this.orgId = localStorage.getItem('org_id');
+   // console.log(this.uid+"_____"+this.orgId);
     this.getTags();  
     this.dtOptions = {
       pagingType: 'full_numbers',

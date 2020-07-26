@@ -19,9 +19,13 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TeamLayoutComponent } from './team-layout/team-layout.component';
 
+import { DataTablesModule } from 'angular-datatables';
+import { TeamListCreateComponent } from './team-list-create/team-list-create.component';
+import { TeamListViewComponent } from './team-list-view/team-list-view.component';
+import { TeamListEditComponent } from './team-list-edit/team-list-edit.component';
 
 @NgModule({
-  declarations: [TeamCreateComponent, TeamGridComponent, TeamEditComponent, TeamViewComponent, TeamLayoutComponent, TeamListComponent],
+  declarations: [TeamCreateComponent, TeamGridComponent, TeamEditComponent, TeamViewComponent, TeamLayoutComponent, TeamListComponent, TeamListCreateComponent, TeamListViewComponent, TeamListEditComponent],
   imports: [
     CommonModule,
     TeamsLayoutRoutingModule,
@@ -35,7 +39,9 @@ import { TeamLayoutComponent } from './team-layout/team-layout.component';
    NgbTypeaheadModule,NgSelectModule,NgbDatepickerModule,
    FileUploadModule,NgbDropdownModule,
    Ng2SearchPipeModule,NgbAlertModule,
+   
    NgxMaskModule.forRoot(),
+   DataTablesModule,
   ],
   entryComponents:[TeamCreateComponent, TeamGridComponent, TeamEditComponent, TeamViewComponent]
 })

@@ -22,7 +22,23 @@ export class TeamListComponent implements OnInit {
   db: any = firebase.firestore();
   value: any = [];
   getAllTags: any = [];
-  getAllTagsData: any = [];
+  //getAllTagsData: any = [];
+  public getAllTagsData:any= [
+    {
+        "tag_id": 1,
+        "col_code_fk": 5,
+        "team_name": "A",
+        "level": 0,
+        "players": "indian",
+        "coaches": "India",
+        "managers": "venkat",
+        "season": "USR",
+        "sport": "USR",
+        "create_date": "2014-02-08 06:13:55",
+        "edit_by": 0,
+        "edit_date": "0000-00-00 00:00:00"
+    }
+]
 
   data: any;
   dtOptions: DataTables.Settings = {};
@@ -34,31 +50,33 @@ export class TeamListComponent implements OnInit {
   uid: any;
   orgId: any;
 
+
   constructor(private router: Router, private notification: NgiNotificationService, @Inject(DOCUMENT) private _document: Document,public cookieService: CookieService) { }
 
   ngOnInit() { 
 
-    this.uid = this.cookieService.getCookie('uid');
-    this.orgId = localStorage.getItem('org_id');
-    this.getTags();  
+   // this.uid = this.cookieService.getCookie('uid');
+    //this.orgId = localStorage.getItem('org_id');
+    
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true
     }; 
+    this.getTags();  
   }
 
   async getTags(){
-    console.log(this.orgId);
-    if(this.orgId=='') {
+   // console.log(this.orgId);
+    /* if(this.orgId=='') {
       this.getAllTags = await this.db.collection('Tags').orderBy('sport_id').get();
     } else {
       this.getAllTags = await this.db.collection('Tags').where('organization_id', '==', this.orgId).get();
-    }
+    } */
 
     //this.getAllLevel = await this.db.collection('levels').orderBy('sport_id').get();
 
-    this.getAllTagsData = await this.getAllTags.docs.map((doc: any) => doc.data());
+    //this.getAllTagsData = await this.getAllTags.docs.map((doc: any) => doc.data());
     this.data = this.getAllTagsData;
     this.dtTrigger.next();
     this.loading = false;
@@ -69,19 +87,19 @@ export class TeamListComponent implements OnInit {
   }
  
   listTag(){
-    this.router.navigate(['/tags/list']);
+    this.router.navigate(['/teams/list']);
   }
 
   addTag(){
-    this.router.navigate(['/tags/createlist']);
+    this.router.navigate(['/teams/listcreate']);
   }
   
   viewTag(resourceId: string){
-    this.router.navigate(['/tags/viewlist/'+resourceId]);
+    this.router.navigate(['/teams/listview/'+resourceId]);
   }
   
   editTag(resourceId: string){
-    this.router.navigate(['/tags/editlist/'+resourceId]);
+    this.router.navigate(['/teams/listedit/'+resourceId]);
   }
 
   async deleteTag(resourceId: string, resourceName: string){
