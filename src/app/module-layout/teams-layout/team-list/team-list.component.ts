@@ -21,8 +21,8 @@ export class TeamListComponent implements OnInit {
 
   db: any = firebase.firestore();
   value: any = [];
-  getAllTags: any = [];
-  //getAllTagsData: any = [];
+  getAllTeams: any = [];
+  getAllTeamsData: any = [];
   public getAllTagsData:any= [
     {
         "tag_id": 1,
@@ -55,29 +55,27 @@ export class TeamListComponent implements OnInit {
 
   ngOnInit() { 
 
-   // this.uid = this.cookieService.getCookie('uid');
-    //this.orgId = localStorage.getItem('org_id');
+    this.uid = this.cookieService.getCookie('uid');
+    this.orgId = localStorage.getItem('org_id');
     
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true
     }; 
-    this.getTags();  
+    this.getTeams();  
   }
 
-  async getTags(){
-   // console.log(this.orgId);
-    /* if(this.orgId=='') {
-      this.getAllTags = await this.db.collection('Tags').orderBy('sport_id').get();
+  async getTeams(){
+    console.log(this.orgId);
+    if(this.orgId=='') {
+      this.getAllTeams = await this.db.collection('/teams').orderBy('sport_id').get();
     } else {
-      this.getAllTags = await this.db.collection('Tags').where('organization_id', '==', this.orgId).get();
-    } */
+      this.getAllTeams = await this.db.collection('/teams').where('organization_id', '==', this.orgId).get();
+    }
 
-    //this.getAllLevel = await this.db.collection('levels').orderBy('sport_id').get();
-
-    //this.getAllTagsData = await this.getAllTags.docs.map((doc: any) => doc.data());
-    this.data = this.getAllTagsData;
+    this.getAllTeamsData = await this.getAllTeams.docs.map((doc: any) => doc.data());
+    this.data = this.getAllTeamsData;
     this.dtTrigger.next();
     this.loading = false;
     this.displayLoader = false; 
