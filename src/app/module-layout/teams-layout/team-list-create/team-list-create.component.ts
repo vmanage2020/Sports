@@ -26,7 +26,7 @@ export class TeamListCreateComponent implements OnInit {
   
   getSports: any = [];
   getSportsData: any = [];
-  getSportsArray: any = [];
+  getSportsArray: any = ["FootBall", "BasketBall","ValleyBall"];
 
   
   getTags: any = [];
